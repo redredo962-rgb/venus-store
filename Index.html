@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VENUS STORE</title>
+    <style>
+        /* ==========================================================================
+           1. CORE DESIGN & NEON PURPLE THEME
+           ========================================================================== */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: #06020b; /* Hitam Pekat dengan Tint Ungu Gelap */
+        }
+        body {
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* Animasi Mengambang Judul Utama (Ungu Neon) */
+        h1 {
+            color: #bd00ff;
+            font-size: 2.7rem;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px #bd00ff, 0 0 25px rgba(189, 0, 255, 0.5);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        p.subtitle {
+            font-size: 1.1rem;
+            color: #e0aaff;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        /* BANNER PERINGATAN (RAGU BOX) */
+        .ragu-box {
+            background: rgba(189, 0, 255, 0.05);
+            border: 2px dashed #bd00ff;
+            border-radius: 12px;
+            padding: 15px;
+            max-width: 380px;
+            margin: 0 auto 35px auto;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(189, 0, 255, 0.1);
+            line-height: 1.4;
+        }
+
+        h2 {
+            color: #ffffff;
+            border-bottom: 2px solid #bd00ff;
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px rgba(189, 0, 255, 0.5);
+        }
+
+        /* ==========================================================================
+           2. DESAIN KOTAK AKORDION PRODUK INTERAKTIF
+           ========================================================================== */
+        .product-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 380px;
+            margin: 0 auto;
+        }
+
+        .product-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(189, 0, 255, 0.2);
+            border-radius: 14px;
+            padding: 18px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .product-box:active {
+            transform: scale(0.98);
+        }
+
+        .product-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .product-tag {
+            color: #bd00ff;
+            font-size: 0.9rem;
+            background: rgba(189, 0, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid rgba(189, 0, 255, 0.3);
+        }
+
+        .arrow {
+            font-size: 0.75rem;
+            transition: transform 0.3s ease;
+        }
+
+        /* KONTEN DI DALAM KOTAK (HIDDEN LISTS) */
+        .product-desc {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            text-align: left;
+            font-size: 0.95rem;
+            color: #e0aaff;
+            transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
+        }
+
+        .product-box.active {
+            border-color: #bd00ff;
+            background: rgba(189, 0, 255, 0.04);
+            box-shadow: 0 0 20px rgba(189, 0, 255, 0.2);
+        }
+
+        .product-box.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        .product-box.active .product-desc {
+            max-height: 2000px;
+            opacity: 1;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(189, 0, 255, 0.2);
+        }
+
+        .sub-cat {
+            color: #ffffff;
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            border-left: 3px solid #bd00ff;
+            padding-left: 8px;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+
+        .item-price {
+            color: #bd00ff;
+            font-weight: bold;
+        }
+
+        .info-text {
+            color: #ccc;
+            font-style: italic;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* GLOWING NEON WHATSAPP BUTTON */
+        .btn-wa {
+            display: inline-block;
+            padding: 15px 45px;
+            background: #bd00ff;
+            border: none;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px #bd00ff;
+            transition: 0.3s;
+            animation: pulse 2s infinite;
+        }
+
+        /* ==========================================================================
+           3. LOGIK KEYFRAMES ANIMASI
+           ========================================================================== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(189, 0, 255, 0.7); transform: scale(1); }
+            70% { box-shadow: 0 0 0 15px rgba(189, 0, 255, 0); transform: scale(1.03); }
+            100% { box-shadow: 0 0 0 0 rgba(189, 0, 255, 0); transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Toko -->
+    <h1>🚀 VENUS STORE 🚀</h1>
+    <p class="subtitle">Premium Game & Social Media Services</p>
+    
+    <!-- Kotak Warning Pembeli Ragu -->
+    <div class="ragu-box">
+        💡 RAGU? BELI YANG PALING MURAH AJA DULU, ATAU MC SETEMPAT YAA
+    </div>
+
+    <h2>Daftar Jualan</h2>
+
+    <!-- CONTAINER DAFTAR AKORDION JUALAN -->
+    <div class="product-container">
+        
+        <!-- KATEGORI: SUNTIK SOSMED -->
+        <div class="product-box" onclick="toggleBox(this)">
+            <div class="product-top">
+                <span>📱 SUNTIK SOSMED</span>
+                <span class="product-tag">Sosmed <span class="arrow">▼</span></span>
+            </div>
+            <div class="product-desc">
+                <div class="info-text">
+                    <b>*LIST SUNTIK BY CINSTOREE*</b><br>
+                    *MINAT?PM* • *082286097011*<br>
+                    ____________________________<br><br>
+                    <i>*OPEN JUGA APK SUNTIK HARGA 10K MINAT? SUNG PM*</i>
+                </div>
+
+                <div class="sub-cat">🔮 TIKTOK</div>
+                <div class="item-row"><span>1.000 Like</span><span class="item-price">4k</span></div>
+                <div class="item-row"><span>2.000 Like</span><span class="item-price">6k</span></div>
+                <div class="item-row"><span>3.000 Like</span><span class="item-price">8k</span></div>
+                <div class="item-row"><span>4.000 Like</span><span class="item-price">9k</span></div>
+                <div class="item-row"><span>5.000 Like</span><span class="item-price">11k</span></div>
+                
+                <div class="item-row" style="margin-top:8px;"><span>100 Followers</span><span class="item-price">5k</span></div>
+                <div class="item-row"><span>200 Followers</span><span class="item-price">7k</span></div>
+                <div class="item-row"><span>300 Followers</span><span class="item-price">9k</span></div>
+                <div class="item-row"><span>400 Followers</span><span class="item-price">12k</span></div>
+                <div class="item-row"><span>500 Followers</span><span class="item-price">14k</span></div>
+
+                <div class="item-row" style="margin-top:8px;"><span>1.000 View</span><span class="item-price">2k</span></div>
+                <div class="item-row"><span>2.000 View</span><span class="item-price">4k</span></div>
+                <div class="item-row"><span>3.000 View</span><span class="item-price">5k</span></div>
+                <div class="item-row"><span>4.000 View</span><span class="item-price">6k</span></div>
+                <div class="item-row"><span>5.000 View</span><span class="item-price">7k</span></div>
+
+                <div class="item-row" style="margin-top:8px; color:#fff;"><span>🔥 PAKET FYP 10K</span><span class="item-price">3K Like + 2K View</span></div>
+                <div class="item-row" style="color:#fff;"><span>🔥 PAKET FYP 15K</span><span class="item-price">100 Foll + 4K View + 2K Like</span></div>
+                <div class="item-row" style="color:#fff;"><span>🔥 PAKET FYP 20K</span><span class="item-price">200 Foll + 5K View + 4K Like</span></div>
+
+                <div class="sub-cat">📸 INSTAGRAM</div>
+                <div class="item-row"><span>100 Followers IG</span><span class="item-price">2k</span></div>
+                <div class="item-row"><span>200 Followers IG</span><span class="item-price">3k</span></div>
+                <div class="item-row"><span>300 Followers IG</span><span class="item-price">4k</span></div>
+                <div class="item-row"><span>400 Followers IG</span><span class="item-price">6k</span></div>
+                <div class="item-row"><span>500 Followers IG</span><span class="item-price">7k</span></div>
+
+                <div class="item-row" style="margin-top:8px;"><span>1.000 Like IG</span><span class="item-price">3k</span></div>
+                <div class="item-row"><span>2.000 Like IG</span><span class="item-price">4k</span></div>
+                <div class="item-row"><span>3.000 Like IG</span><span class="item-price">5k</span></div>
+                <div class="item-row"><span>4.000 Like IG</span><span class="item-price">6k</span></div>
+                <div class="item-row"><span>5.000 Like IG</span><span class="item-price">7k</span></div>
+
+                <div class="item-row" style="margin-top:8px;"><span>10.000 View IG</span><span class="item-price">2k</span></div>
+                <div class="item-row"><span>20.000 View IG</span><span class="item-price">3k</span></div>
+                <div class="item-row"><span>30.000 View IG</span><span class="item-price">4k</span></div>
+                <div class="item-row"><span>40.000 View IG</span><span class="item-price">5k</span></div>
+                <div class="item-row"><span>50.000 View IG</span><span class="item-price">6k</span></div>
+
+                <div class="sub-cat">🟢 WHATSAPP SALURAN</div>
+                <div class="item-row"><span>100 Pengikut</span><span class="item-price">6.5k</span></div>
+                <div class="item-row"><span>200 Pengikut</span><span class="item-price">12k</span></div>
+                <div class="item-row"><span>300 Pengikut</span><span class="item-price">16.5k</span></div>
+                <div class="item-row"><span>400 Pengikut</span><span class="item-price">20k</span></div>
+                <div class="item-row"><span>500 Pengikut</span><span class="item-price">23k</span></div>
+
+                <div class="sub-cat" style="border-color:#fff;">💳 METODE PAY</div>
+                <div class="item-row"><span style="color:#fff;">• GOPAY</span><span class="item-price">✔ Ready</span></div>
+                <div class="item-row"><span style="color:#fff;">• QRIS</span><span class="item-price">✔ Ready</span></div>
+            </div>
+        </div>
+
+        <!-- KATEGORI: GP DDS -->
+        <div class="product-box" onclick="toggleBox(this)">
+            <div class="product-top">
+                <span>🏎️ GP DRAG DRIVE SIMULATOR</span>
+                <span class="product-tag">DDS <span class="arrow">▼</span></span>
+            </div>
+            <div class="product-desc">
+                <div class="sub-cat">🎮 GAMEPASS PLAYLIST</div>
+                <div class="item-row"><span>2X PAYCHECK</span><span class="item-price">48.000</span></div>
+                <div class="item-row"><span>POLICE PASS</span><span class="item-price">14.500</span></div>
+                <div class="item-row"><span>LUXURY PASS</span><span class="item-price">11.500</span></div>
+                <div class="item-row"><span>DRAGSPEC PASS</span><span class="item-price">10.500</span></div>
+                <div class="item-row"><span>SLOT EXPANSION</span><span class="item-price">9.000</span></div>
+                <div class="item-row"><span>EXCLUSIVE RIMS</span><span class="item-price">8.000</span></div>
+                <div class="item-row"><span>CUSTOM PLATE PASS</span><span class="item-price">8.000</span></div>
+                <div class="item-row"><span>ADVANCE PAINT PASS</span><span class="item-price">6.000</span></div>
+                <div class="item-row"><span>PREMIUM ACCESORIES</span><span class="item-price">6.000</span></div>
+                <div class="item-row"><span>BOOMBOX</span><span class="item-price">3.000</span></div>
+                <div class="item-row"><span>SUSPENSION PRO PASS</span><span class="item-price">3.000</span></div>
+
+                <div class="sub-cat">💰 MONEY DDS</div>
+                <div class="item-row"><span>500 JUTA</span><span class="item-price">38.000</span></div>
+                <div class="item-row"><span>100 JUTA</span><span class="item-price">9.500</span></div>
+                <div class="item-row"><span>50 JUTA</span><span class="item-price">6.000</span></div>
+                <div class="item-row"><span>10 JUTA</span><span class="item-price">3.500</span></div>
+                <div class="item-row"><span>5 JUTA</span><span class="item-price">2.000</span></div>
+                <div class="item-row"><span>1 JUTA</span><span class="item-price">1.000</span></div>
+
+                <!-- DESK REQ BARU -->
+                <div class="info-text" style="margin-top:15px; text-align:center; font-weight:bold; color:#ffffff;">📌 GP = GIG [GIFT IN GAME]</div>
+            </div>
+        </div>
+
+        <!-- KATEGORI: GP FISH IT -->
+        <div class="product-box" onclick="toggleBox(this)">
+            <div class="product-top">
+                <span>🎣 GP FISH IT</span>
+                <span class="product-tag">Fish It <span class="arrow">▼</span></span>
+            </div>
+            <div class="product-desc">
+                <div class="sub-cat">🎮 GAMEPASS PLAYLIST</div>
+                <div class="item-row"><span>Butterfly</span><span class="item-price">72.500</span></div>
+                <div class="item-row"><span>Beatboxing</span><span class="item-price">5.000</span></div>
+                <div class="item-row"><span>Yg Tembak Lupa Namanya</span><span class="item-price">5.000</span></div>
+                <div class="item-row"><span>Crate Emote</span><span class="item-price">6.000</span></div>
+
+                <div class="sub-cat">🥚 EGG MURNI</div>
+                <div class="item-row"><span>1 Egg</span><span class="item-price">10.500</span></div>
+                <div class="item-row"><span>3 Egg</span><span class="item-price">30.000</span></div>
+                <div class="item-row"><span>5 Egg</span><span class="item-price">49.500</span></div>
+
+                <div class="sub-cat">📦 CRATES & UPGRADE</div>
+                <div class="item-row"><span>Azure Crate</span><span class="item-price">10.500</span></div>
+                <div class="item-row"><span>Crate Pirates</span><span class="item-price">10.500</span></div>
+                <div class="item-row"><span>Elderwood</span><span class="item-price">9.500</span></div>
+                <div class="item-row"><span>VIP</span><span class="item-price">41.000</span></div>
+                <div class="item-row"><span>Double EXP</span><span class="item-price">18.000</span></div>
+                <div class="item-row"><span>Extra Luck</span><span class="item-price">20.500</span></div>
+                <div class="item-row"><span>Sell Anywhere</span><span class="item-price">29.000</span></div>
+                <div class="item-row"><span>Small Luck</span><span class="item-price">5.000</span></div>
+                <div class="item-row"><span>More Mutation</span><span class="item-price">27.000</span></div>
+                <div class="item-row"><span>Advance Luck</span><span class="item-price">50.000</span></div>
+                <div class="item-row"><span>Hyper Pack</span><span class="item-price">91.500</span></div>
+
+                <div class="sub-cat">⚡ BOOST GIFT</div>
+                <div class="item-row"><span>X2 1 Jam</span><span class="item-price">9.500</span></div>
+                <div class="item-row"><span>X4 3 Jam</span><span class="item-price">45.500</span></div>
+                <div class="item-row"><span>X8 6 Jam</span><span class="item-price">117.000</span></div>
+                <div class="item-row"><span>X8 12 Jam</span><span class="item-price">171.000</span></div>
+                <div class="item-row"><span>X8 24 Jam</span><span class="item-price">279.000</span></div>
+
+                <!-- DESK REQ BARU -->
+                <div class="info-text" style="margin-top:15px; text-align:center; font-weight:bold; color:#ffffff;">📌 GP = GIG [GIFT IN GAME]</div>
+            </div>
+        </div>
+
+        <!-- KATEGORI: GP CDID -->
+        <div class="product-box" onclick="toggleBox(this)">
+            <div class="product-top">
+                <span>🚗 GP CAR DRIVING INDONESIA</span>
+                <span class="product-tag">CDID <span class="arrow">▼</span></span>
+            </div>
+            <div class="product-desc">
+                <div class="sub-cat">🎮 CDID GAMEPASS LIST</div>
+                <div class="item-row"><span>Rare Import</span><span class="item-price">17.500</span></div>
+                <div class="item-row"><span>2X Additional Ownable Car</span><span class="item-price">25.000</span></div>
+                <div class="item-row"><span>Emergency Vehicle</span><span class="item-price">13.000</span></div>
+                <div class="item-row"><span>2X Paycheck</span><span class="item-price">38.000</span></div>
+                <div class="item-row"><span>Retro Pass</span><span class="item-price">16.000</span></div>
+                <div class="item-row"><span>Advance Modification</span><span class="item-price">23.000</span></div>
+                <div class="item-row"><span>Luxury Car</span><span class="item-price">24.000</span></div>
+                <div class="item-row"><span>Luxury House</span><span class="item-price">8.000</span></div>
+                <div class="item-row"><span>50% Job Earning</span><span class="item-price">38.000</span></div>
+                <div class="item-row"><span>Additional Ownable Car</span><span class="item-price">9.500</span></div>
+
+                <!-- DESK REQ BARU -->
+                <div class="info-text" style="margin-top:15px; text-align:center; font-weight:bold; color:#ffffff;">📌 GP = GIG [GIFT IN GAME]</div>
+                                                                                                     </div>
