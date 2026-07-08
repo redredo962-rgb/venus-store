@@ -85,6 +85,11 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
             transition: all 0.3s ease;
             overflow: hidden;
+            
+            /* FITUR ANTI-BLOK TEKS (Biar pas diketuk gak malah ngeblok tulisan/memunculkan Google Search) */
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            user-select: none;
         }
 
         .product-box:active {
@@ -199,6 +204,8 @@
             box-shadow: 0 0 15px #bd00ff;
             transition: 0.3s;
             animation: pulse 2s infinite;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         /* ==========================================================================
@@ -221,9 +228,7 @@
         }
     </style>
 </head>
-<body>
-
-    <!-- Header Toko -->
+<body><!-- Header Toko -->
     <h1>🚀 VENUS STORE 🚀</h1>
     <p class="subtitle">Premium Game & Social Media Services</p>
     
@@ -334,7 +339,6 @@
                 <div class="item-row"><span>5 JUTA</span><span class="item-price">2.000</span></div>
                 <div class="item-row"><span>1 JUTA</span><span class="item-price">1.000</span></div>
 
-                <!-- DESK REQ BARU -->
                 <div class="info-text" style="margin-top:15px; text-align:center; font-weight:bold; color:#ffffff;">📌 GP = GIG [GIFT IN GAME]</div>
             </div>
         </div>
@@ -377,7 +381,6 @@
                 <div class="item-row"><span>X8 12 Jam</span><span class="item-price">171.000</span></div>
                 <div class="item-row"><span>X8 24 Jam</span><span class="item-price">279.000</span></div>
 
-                <!-- DESK REQ BARU -->
                 <div class="info-text" style="margin-top:15px; text-align:center; font-weight:bold; color:#ffffff;">📌 GP = GIG [GIFT IN GAME]</div>
             </div>
         </div>
@@ -401,6 +404,50 @@
                 <div class="item-row"><span>50% Job Earning</span><span class="item-price">38.000</span></div>
                 <div class="item-row"><span>Additional Ownable Car</span><span class="item-price">9.500</span></div>
 
-                <!-- DESK REQ BARU -->
                 <div class="info-text" style="margin-top:15px; text-align:center; font-weight:bold; color:#ffffff;">📌 GP = GIG [GIFT IN GAME]</div>
-                                                                                                     </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Tombol Order Hubungi WhatsApp -->
+    <a href="https://wa.me/6287822709475" target="_blank" class="btn-wa">
+        🛒 KLIK UNTUK BUY
+    </a>
+
+    <!-- Audio Player (Otomatis Loop di Background) -->
+    <audio id="bgMusic" loop>
+        <source src="https://files.catbox.moe/d7tvg3.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- ==========================================================================
+       JAVASCRIPT LOGIC
+       ========================================================================== -->
+    <script>
+        var musikSedangDiputar = false;
+
+        // Fungsi Akordion List Jualan + Trigger Musik Anti-Gagal
+        function toggleBox(element) {
+            // Jalankan musik otomatis di ketukan pertama pada kotak mana saja
+            if (!musikSedangDiputar) {
+                var audio = document.getElementById("bgMusic");
+                audio.play().then(function() {
+                    musikSedangDiputar = true;
+                }).catch(function(error) {
+                    console.log("Musik diblokir browser:", error);
+                });
+            }
+
+            // Logika buka-tutup kotak jualan
+            var boxes = document.querySelectorAll('.product-box');
+            boxes.forEach(function(box) {
+                if (box !== element) {
+                    box.classList.remove('active');
+                }
+            });
+            element.classList.toggle('active');
+        }
+    </script>
+
+</body>
+            </html>
